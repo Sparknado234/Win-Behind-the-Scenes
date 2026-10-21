@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win Behind the Scenes - Football Training Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Oswald -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#FFD700',
+                            dark: '#AA820A',
+                            glow: 'rgba(212, 175, 55, 0.25)'
+                        },
+                        dark: {
+                            base: '#0A0A0C',
+                            surface: '#141418',
+                            card: '#1E1E24',
+                            border: '#2E2E38'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0A0A0C;
+            color: #F3F4F6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Football Field Yardage lines overlay */
+        .field-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .gold-glow {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .gold-border-glow:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0C;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2E2E38;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold selection:text-black">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 bg-dark-base/90 backdrop-blur-md border-b border-dark-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- BRAND LOGO WITH SVG EMBLEM -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="relative w-12 h-12 rounded-full bg-gradient-to-br from-gold-light via-gold to-gold-dark p-[2px] shadow-lg transition-transform duration-300 group-hover:scale-105">
+                        <div class="w-full h-full bg-dark-base rounded-full flex items-center justify-center overflow-hidden relative">
+                            <!-- SVG Football Emblem Logo -->
+                            <svg class="w-8 h-8 text-gold" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Field Hash Lines -->
+                                <line x1="20" y1="50" x2="80" y2="50" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4" opacity="0.4"/>
+                                <!-- Goalpost SVG -->
+                                <path d="M50 85 V45 M35 45 H65 M35 45 V20 M65 45 V20" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                                <!-- Football Helmet Silhouette -->
+                                <path d="M40 32 C 40 22, 60 22, 60 32 C 60 40, 52 45, 45 45 C 40 45, 40 38, 40 32 Z" fill="currentColor" opacity="0.85"/>
+                                <!-- Film Reel Arc -->
+                                <path d="M15 50 A 35 35 0 0 1 85 50" stroke="#FFD700" stroke-width="3" stroke-dasharray="6 6"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="font-display text-2xl font-bold tracking-wider text-white block leading-none">WIN <span class="text-gold">BTS</span></span>
+                        <span class="text-[10px] tracking-widest text-gray-400 font-semibold uppercase">Behind The Scenes</span>
+                    </div>
+                </a>
+
+                <!-- NAV LINKS -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide">
+                    <a href="#film-room" class="text-gray-300 hover:text-gold transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-film text-xs text-gold"></i> Film Room
+                    </a>
+                    <a href="#locker-room" class="text-gray-300 hover:text-gold transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-xs text-gold"></i> Locker Room Chat
+                    </a>
+                    <a href="#player-tapes" class="text-gray-300 hover:text-gold transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-play text-xs text-gold"></i> Player Tapes
+                    </a>
+                    <a href="#pricing" class="text-gray-300 hover:text-gold transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-ticket text-xs text-gold"></i> Membership
+                    </a>
+                </nav>
+
+                <!-- ACTION BUTTONS -->
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleModal('submitModal')" class="hidden sm:flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black bg-gradient-to-r from-gold-light to-gold rounded-lg hover:brightness-110 transition shadow-md">
+                        <i class="fa-solid fa-upload"></i> Submit Clip
+                    </button>
+                    <button onclick="toggleModal('adminModal')" class="px-3 py-2 text-xs font-semibold text-gray-300 hover:text-white bg-dark-card border border-dark-border rounded-lg hover:border-gold/50 transition flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-check text-gold"></i>
+                        <span class="hidden md:inline">Coach Queue</span>
+                        <span id="queueBadge" class="bg-gold text-black text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">1</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION WITH FOOTBALL GRAPHICS -->
+    <section class="relative py-20 lg:py-28 overflow-hidden field-pattern border-b border-dark-border">
+        <!-- Glow Overlay -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <!-- Decorative Football Elements Background SVG -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none flex justify-between items-center px-10">
+            <i class="fa-solid fa-football text-[300px] text-white -rotate-45"></i>
+            <i class="fa-solid fa-shield-halved text-[280px] text-white"></i>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dark-card border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest mb-6 gold-glow">
+                <i class="fa-solid fa-helmet-safety text-gold-light"></i> Built for High School Football Athletes
+            </div>
+
+            <h1 class="font-display text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white uppercase max-w-4xl mx-auto leading-none">
+                THE BLUEPRINT BEHIND THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-gold-dark">LIGHTS</span>
+            </h1>
+
+            <p class="mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-normal">
+                Master position fundamentals, breakdown game film, and get direct drill feedback from top coaches for just <strong class="text-gold font-bold">$2.99/mo</strong>.
+            </p>
+
+            <!-- Hero Action Buttons -->
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#film-room" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gold-light via-gold to-gold-dark text-black font-display text-lg font-bold uppercase tracking-wider rounded-xl hover:scale-105 transition duration-200 shadow-xl flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-play"></i> Explore Film Room
+                </a>
+                <a href="#locker-room" class="w-full sm:w-auto px-8 py-4 bg-dark-card hover:bg-dark-border text-white border border-dark-border hover:border-gold/50 font-display text-lg font-bold uppercase tracking-wider rounded-xl transition duration-200 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-comments text-gold"></i> Join Locker Room
+                </a>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="p-4 rounded-xl bg-dark-card/80 border border-dark-border backdrop-blur-sm">
+                    <span class="font-display text-3xl font-bold text-gold block">9</span>
+                    <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Position Groups</span>
+                </div>
+                <div class="p-4 rounded-xl bg-dark-card/80 border border-dark-border backdrop-blur-sm">
+                    <span class="font-display text-3xl font-bold text-white block">100+</span>
+                    <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Curated Drills</span>
+                </div>
+                <div class="p-4 rounded-xl bg-dark-card/80 border border-dark-border backdrop-blur-sm">
+                    <span class="font-display text-3xl font-bold text-gold block">Live</span>
+                    <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Locker Room Chat</span>
+                </div>
+                <div class="p-4 rounded-xl bg-dark-card/80 border border-dark-border backdrop-blur-sm">
+                    <span class="font-display text-3xl font-bold text-white block">$2.99</span>
+                    <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Monthly Pass</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEW FEATURE: INTERACTIVE LOCKER ROOM CHAT -->
+    <section id="locker-room" class="py-16 bg-dark-base border-b border-dark-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <div class="flex items-center gap-2 text-xs font-bold text-gold uppercase tracking-widest mb-1">
+                        <i class="fa-solid fa-comments"></i> Community Hub
+                    </div>
+                    <h2 class="font-display text-3xl sm:text-4xl font-extrabold uppercase text-white">THE LOCKER ROOM CHAT</h2>
+                    <p class="text-gray-400 text-sm mt-1">Ask questions, trade training tips, or submit film clips for peer & coach review.</p>
+                </div>
+
+                <!-- Chat Filter Tags -->
+                <div class="flex flex-wrap gap-2" id="chatFilters">
+                    <button onclick="filterChat('All')" class="chat-filter-btn active px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-gold text-black">All</button>
+                    <button onclick="filterChat('General')" class="chat-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">General</button>
+                    <button onclick="filterChat('Drill Help')" class="chat-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">Drill Help</button>
+                    <button onclick="filterChat('Film Breakdown')" class="chat-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">Film Breakdown</button>
+                    <button onclick="filterChat('Recruiting/Tips')" class="chat-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">Recruiting</button>
+                </div>
+            </div>
+
+            <!-- Chat Grid Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Chat Feed Column (2 Cols) -->
+                <div class="lg:col-span-2 bg-dark-surface border border-dark-border rounded-2xl p-4 sm:p-6 flex flex-col h-[520px]">
+                    
+                    <div class="flex items-center justify-between border-b border-dark-border pb-3 mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-gray-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Player Feed
+                        </span>
+                        <span class="text-xs text-gold font-semibold" id="msgCount">Showing 4 Messages</span>
+                    </div>
+
+                    <!-- Scrollable Message List -->
+                    <div id="chatMessages" class="flex-1 overflow-y-auto space-y-4 pr-2">
+                        <!-- Messages dynamically rendered here -->
+                    </div>
+
+                </div>
+
+                <!-- Message Submission Box Column (1 Col) -->
+                <div class="bg-dark-card border border-dark-border rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-display text-xl font-bold text-white uppercase mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane text-gold text-sm"></i> Post to Locker Room
+                        </h3>
+                        <p class="text-xs text-gray-400 mb-6">Need feedback on a route or workout routine? Drop it in the chat below.</p>
+
+                        <form id="chatForm" onsubmit="handleChatSubmit(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Your Name / Handle</label>
+                                <input type="text" id="chatAuthor" placeholder="e.g. Marcus (DB '26)" required class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Position</label>
+                                    <select id="chatPosition" class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow">
+                                        <option value="DB">DB / Safety</option>
+                                        <option value="WR">WR / TE</option>
+                                        <option value="QB">QB</option>
+                                        <option value="RB">RB</option>
+                                        <option value="OL">O-Line</option>
+                                        <option value="DL">D-Line</option>
+                                        <option value="LB">Linebacker</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Topic</label>
+                                    <select id="chatCategory" class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow">
+                                        <option value="General">General</option>
+                                        <option value="Drill Help">Drill Help</option>
+                                        <option value="Film Breakdown">Film Breakdown</option>
+                                        <option value="Recruiting/Tips">Recruiting/Tips</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Message / Question</label>
+                                <textarea id="chatText" rows="3" placeholder="What drill should I work on to improve hips transition?" required class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Optional Drill Video Link</label>
+                                <input type="url" id="chatMedia" placeholder="https://youtube.com/shorts/..." class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow">
+                            </div>
+
+                            <button type="submit" class="w-full py-3 bg-gradient-to-r from-gold-light to-gold hover:brightness-110 text-black font-display font-bold uppercase tracking-wider rounded-xl transition shadow-lg">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-dark-border flex items-center justify-between text-[11px] text-gray-400">
+                        <span><i class="fa-solid fa-shield text-gold mr-1"></i> Moderated Community</span>
+                        <span>Keep it supportive</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CURATED FILM ROOM (9 POSITION GROUPS) -->
+    <section id="film-room" class="py-16 bg-dark-surface border-b border-dark-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <div class="flex items-center justify-center gap-2 text-xs font-bold text-gold uppercase tracking-widest mb-2">
+                    <i class="fa-solid fa-list-check"></i> Position Breakdown Library
+                </div>
+                <h2 class="font-display text-4xl font-extrabold uppercase text-white">THE CURATED FILM ROOM</h2>
+                <p class="text-gray-400 text-sm mt-2">Filter drill footage and coaching breakdowns tailored to your exact position group.</p>
+            </div>
+
+            <!-- Position Filter Pills -->
+            <div class="flex flex-wrap items-center justify-center gap-2 mb-10" id="positionFilters">
+                <button onclick="filterPosition('ALL')" class="pos-filter-btn active px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-gold text-black shadow-md">All Positions</button>
+                <button onclick="filterPosition('WR')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">WR</button>
+                <button onclick="filterPosition('RB')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">RB</button>
+                <button onclick="filterPosition('OL')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">O-Line</button>
+                <button onclick="filterPosition('QB')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">QB</button>
+                <button onclick="filterPosition('DB')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">DB</button>
+                <button onclick="filterPosition('SAF')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">Safety</button>
+                <button onclick="filterPosition('DL')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">D-Line</button>
+                <button onclick="filterPosition('OLB')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">OLB</button>
+                <button onclick="filterPosition('ILB')" class="pos-filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition bg-dark-card text-gray-300 hover:text-white border border-dark-border">ILB</button>
+            </div>
+
+            <!-- Position Drills Grid -->
+            <div id="drillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Drill Cards rendered dynamically -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PLAYER TAPES SECTION (USER SUBMISSIONS FEED) -->
+    <section id="player-tapes" class="py-16 bg-dark-base border-b border-dark-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <div class="flex items-center gap-2 text-xs font-bold text-gold uppercase tracking-widest mb-1">
+                        <i class="fa-solid fa-circle-play"></i> Player Spotlight
+                    </div>
+                    <h2 class="font-display text-3xl sm:text-4xl font-extrabold uppercase text-white">SUBMITTED PLAYER TAPES</h2>
+                    <p class="text-gray-400 text-sm mt-1">Check out approved reps submitted by high school athletes across the country.</p>
+                </div>
+
+                <button onclick="toggleModal('submitModal')" class="px-5 py-3 bg-gradient-to-r from-gold-light to-gold text-black font-display font-bold uppercase tracking-wider text-xs rounded-xl hover:brightness-110 transition shadow-lg flex items-center gap-2 self-start md:self-auto">
+                    <i class="fa-solid fa-plus"></i> Submit Your Tape
+                </button>
+            </div>
+
+            <div id="playerTapesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Player Tapes Rendered Dynamically -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SUBSCRIPTION PRICING SECTION -->
+    <section id="pricing" class="py-20 bg-dark-surface relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-bold uppercase tracking-widest mb-3">
+                    Simple Transparent Pricing
+                </div>
+                <h2 class="font-display text-4xl sm:text-5xl font-extrabold uppercase text-white">ACCESS THE FILM ROOM</h2>
+                <p class="text-gray-400 text-base mt-2">Invest in your recruitability and game IQ for less than the price of a sports drink.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                
+                <!-- Monthly Pass Card -->
+                <div class="bg-dark-card border border-dark-border rounded-2xl p-8 flex flex-col justify-between hover:border-gray-600 transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-display text-xl font-bold uppercase text-white">Monthly Pass</span>
+                            <span class="px-2.5 py-1 rounded-md bg-dark-base text-xs font-bold text-gray-400 border border-dark-border">Flexible</span>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-6">
+                            <span class="font-display text-5xl font-extrabold text-white">$2.99</span>
+                            <span class="text-gray-400 text-sm font-medium">/ month</span>
+                        </div>
+                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-gold"></i> Full access to 9 Position Group libraries</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-gold"></i> Join Live Locker Room Chat discussions</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-gold"></i> Submit clips for Coach Queue review</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-gold"></i> Cancel anytime with 1-click</li>
+                        </ul>
+                    </div>
+                    <button onclick="handleSubscribe('Monthly Pass')" class="w-full py-3.5 bg-dark-base hover:bg-dark-border text-white font-display font-bold uppercase tracking-wider rounded-xl border border-dark-border hover:border-gold transition">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Season Pass Card (Featured) -->
+                <div class="bg-gradient-to-b from-dark-card to-dark-base border-2 border-gold rounded-2xl p-8 flex flex-col justify-between relative shadow-2xl gold-glow">
+                    <div class="absolute -top-3.5 right-6 px-3 py-1 rounded-full bg-gradient-to-r from-gold-light to-gold text-black text-[11px] font-extrabold uppercase tracking-widest shadow-md">
+                        Best Value
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-display text-xl font-bold uppercase text-gold">Season Pass</span>
+                            <span class="px-2.5 py-1 rounded-md bg-gold/20 text-xs font-bold text-gold">Save 30%</span>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-6">
+                            <span class="font-display text-5xl font-extrabold text-white">$24.99</span>
+                            <span class="text-gray-400 text-sm font-medium">/ year</span>
+                        </div>
+                        <ul class="space-y-3 text-sm text-gray-200 mb-8">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-star text-gold"></i> Everything in Monthly Pass</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-star text-gold"></i> Priority Coach Film Review queue</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-star text-gold"></i> Recruiting profile highlight badge</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-star text-gold"></i> Downloadable offseason workout PDFs</li>
+                        </ul>
+                    </div>
+                    <button onclick="handleSubscribe('Season Pass')" class="w-full py-3.5 bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-black font-display font-bold uppercase tracking-wider rounded-xl transition shadow-lg">
+                        Claim Season Pass
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark-base border-t border-dark-border py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-gold/20 border border-gold flex items-center justify-center text-gold text-xs font-bold">
+                    BTS
+                </div>
+                <span class="font-display text-lg font-bold text-white">WIN BEHIND THE SCENES</span>
+            </div>
+            <p class="text-xs text-gray-500">© 2026 Win Behind The Scenes LLC. All rights reserved. Built for high school ballplayers.</p>
+            <div class="flex gap-4 text-gray-400 text-sm">
+                <a href="#" class="hover:text-gold transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-gold transition"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" class="hover:text-gold transition"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SUBMIT FILM MODAL -->
+    <div id="submitModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-dark-card border border-dark-border rounded-2xl max-w-lg w-full p-6 relative">
+            <button onclick="toggleModal('submitModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="font-display text-2xl font-bold uppercase text-white mb-2">Submit Your Film</h3>
+            <p class="text-xs text-gray-400 mb-6">Send your clip to the Coach Moderation Queue for review and inclusion in the live Player Tapes feed.</p>
+            
+            <form id="submissionForm" onsubmit="handleTapeSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Player Name & Grad Year</label>
+                    <input type="text" id="tapeName" placeholder="e.g. Trey Lawson ('27)" required class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Position Group</label>
+                        <select id="tapePosition" class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow">
+                            <option value="WR">WR</option>
+                            <option value="RB">RB</option>
+                            <option value="OL">O-Line</option>
+                            <option value="QB">QB</option>
+                            <option value="DB">DB</option>
+                            <option value="SAF">Safety</option>
+                            <option value="DL">D-Line</option>
+                            <option value="OLB">OLB</option>
+                            <option value="ILB">ILB</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 uppercase mb-1">High School / State</label>
+                        <input type="text" id="tapeSchool" placeholder="Westlake HS, TX" required class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Video URL (YouTube / Hudl / TikTok)</label>
+                    <input type="url" id="tapeUrl" placeholder="https://www.youtube.com/watch?v=..." required class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Clip Description / What to look for</label>
+                    <textarea id="tapeDesc" rows="3" placeholder="Working on press-man release and stack technique..." required class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white gold-border-glow"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-gold-light via-gold to-gold-dark text-black font-display font-bold uppercase tracking-wider rounded-xl transition shadow-lg">
+                    Send to Coach Queue
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- COACH MODERATION QUEUE MODAL -->
+    <div id="adminModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-dark-card border border-dark-border rounded-2xl max-w-2xl w-full p-6 relative max-h-[85vh] flex flex-col">
+            <button onclick="toggleModal('adminModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-3 h-3 rounded-full bg-gold"></div>
+                <h3 class="font-display text-2xl font-bold uppercase text-white">COACH MODERATION QUEUE</h3>
+            </div>
+            <p class="text-xs text-gray-400 mb-6">Review pending clip submissions before publishing them to the public Player Tapes feed.</p>
+
+            <div id="queueList" class="overflow-y-auto space-y-4 flex-1 pr-1">
+                <!-- Pending Queue Items rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT STATE & INTERACTIVITY -->
+    <script>
+        // Sample Curated Film Room Data
+        const drillsData = [
+            { id: 1, pos: 'DB', title: 'Press Bail & Hips Transition', difficulty: 'Advanced', duration: '3:45', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Keep chin over knees. Do not open hips until receiver breaks lead leg line.' },
+            { id: 2, pos: 'WR', title: 'DB Stack & Blindspot Release', difficulty: 'Intermediate', duration: '4:12', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Sell vertical stem first before stacking directly over defender shoulders.' },
+            { id: 3, pos: 'QB', title: 'Off-Axis Throwing Platform', difficulty: 'Advanced', duration: '5:00', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Maintain rotational velocity through core when footwork gets off schedule.' },
+            { id: 4, pos: 'OL', title: 'Pass Sets & Independent Hands', difficulty: 'Fundamental', duration: '2:50', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Avoid lunging with upper body. Punch with inside thumb up.' },
+            { id: 5, pos: 'RB', title: 'Zone Cutback & Second Level Burst', difficulty: 'Intermediate', duration: '3:15', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Press the frontside A-gap to force linebackers to commit before cutting back.' },
+            { id: 6, pos: 'DL', title: 'Cross Chop & Dip Move', difficulty: 'Advanced', duration: '4:30', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Violent wrist swipe combined with dropping inside shoulder below tackle pad level.' },
+            { id: 7, pos: 'SAF', title: 'Deep Half Hash-to-Sidelne Break', difficulty: 'Intermediate', duration: '3:50', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Read QB non-throwing shoulder to trigger downhill break.' },
+            { id: 8, pos: 'OLB', title: 'Setting Edge vs Outside Zone', difficulty: 'Fundamental', duration: '3:10', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Use outside arm extension to lock out TE and force ball inside.' },
+            { id: 9, pos: 'ILB', title: 'A-Gap Plug & Pad Level Strike', difficulty: 'Advanced', duration: '4:05', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', notes: 'Key guard pull cues immediately upon snap read.' }
+        ];
+
+        // Sample Live Player Tapes
+        let playerTapes = [
+            { id: 101, name: "Jordan Reed ('26)", pos: "WR", school: "St. Thomas Aquinas, FL", url: "https://www.youtube.com/embed/dQw4w9WgXcQ", desc: "Red zone slant-and-go route breakdown against press cover 1.", reps: 42 },
+            { id: 102, name: "Deon Vance ('27)", pos: "DB", school: "De La Salle, CA", url: "https://www.youtube.com/embed/dQw4w9WgXcQ", desc: "T-step footwork rep in 1-on-1s. Working on quick hip flip.", reps: 38 },
+            { id: 103, name: "Caden Miller ('26)", pos: "QB", school: "Buford HS, GA", url: "https://www.youtube.com/embed/dQw4w9WgXcQ", desc: "Quick drop quick release throw on hitch concept against zone.", reps: 29 }
+        ];
+
+        // Coach Moderation Queue
+        let coachQueue = [
+            { id: 201, name: "Tyron Smith ('28)", pos: "OL", school: "Duncanville, TX", url: "https://www.youtube.com/embed/dQw4w9WgXcQ", desc: "Pass protection kick slide drill repetition during offseason workout." }
+        ];
+
+        // Sample Locker Room Chat Messages
+        let chatMessages = [
+            { id: 1, author: "Coach Brandon", pos: "Coach", category: "General", text: "Welcome to the BTS Locker Room! Post your training clips or ask questions about weekly drills here.", time: "10:15 AM", media: null },
+            { id: 2, author: "Jaylen (WR '26)", pos: "WR", category: "Drill Help", text: "Having trouble getting separation at the top of my curl routes against physical DBs. Any tips?", time: "10:42 AM", media: null },
+            { id: 3, author: "Darius (DB '27)", pos: "DB", category: "Film Breakdown", text: "Check this footwork clip! Trying to keep my eyes out of the backfield when backpedaling.", time: "11:05 AM", media: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { id: 4, author: "Coach Brandon", pos: "Coach", category: "Drill Help", text: "@Jaylen drop your weight through your hips at the 5th step rather than chopping feet early!", time: "11:20 AM", media: null }
+        ];
+
+        let activeChatFilter = 'All';
+
+        // Render Functions
+        function renderDrills(filterPos = 'ALL') {
+            const grid = document.getElementById('drillsGrid');
+            grid.innerHTML = '';
+            
+            const filtered = filterPos === 'ALL' ? drillsData : drillsData.filter(d => d.pos === filterPos);
+
+            filtered.forEach(drill => {
+                grid.innerHTML += `
+                    <div class="bg-dark-card border border-dark-border rounded-2xl overflow-hidden hover:border-gold/50 transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <div class="p-4 border-b border-dark-border flex items-center justify-between bg-dark-base/50">
+                                <span class="px-2.5 py-1 rounded-md bg-gold/20 text-gold font-display font-bold text-xs uppercase">${drill.pos} Group</span>
+                                <span class="text-xs text-gray-400"><i class="fa-regular fa-clock text-gold mr-1"></i>${drill.duration}</span>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-display text-xl font-bold text-white uppercase mb-2">${drill.title}</h3>
+                                <div class="mb-4 text-xs font-semibold text-gray-400">
+                                    Difficulty: <span class="text-gold">${drill.difficulty}</span>
+                                </div>
+                                <div class="p-3 rounded-xl bg-dark-base border border-dark-border text-xs text-gray-300 mb-4">
+                                    <strong class="text-gold block mb-1 uppercase tracking-wider text-[10px]">Coach's Key Note:</strong>
+                                    "${drill.notes}"
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0">
+                            <button onclick="alert('Viewing Drill: ${drill.title}')" class="w-full py-2.5 bg-dark-base hover:bg-gold hover:text-black text-gray-200 border border-dark-border font-display font-bold uppercase text-xs rounded-xl transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-play text-gold"></i> Play Drill Breakdown
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPlayerTapes() {
+            const grid = document.getElementById('playerTapesGrid');
+            grid.innerHTML = '';
+
+            playerTapes.forEach(tape => {
+                grid.innerHTML += `
+                    <div class="bg-dark-card border border-dark-border rounded-2xl p-5 hover:border-gold/40 transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h4 class="font-display text-lg font-bold text-white">${tape.name}</h4>
+                                <span class="text-xs text-gray-400">${tape.school}</span>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-md bg-dark-base border border-dark-border text-gold text-xs font-bold uppercase">${tape.pos}</span>
+                        </div>
+                        <p class="text-xs text-gray-300 mb-4 bg-dark-base p-3 rounded-xl border border-dark-border font-normal">"${tape.desc}"</p>
+                        <div class="flex items-center justify-between pt-2 border-t border-dark-border">
+                            <button onclick="giveReps(${tape.id})" class="px-3 py-1.5 rounded-lg bg-gold/10 hover:bg-gold/20 text-gold text-xs font-bold transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-fire"></i> Give Reps (${tape.reps})
+                            </button>
+                            <span class="text-[11px] text-gray-500 font-semibold uppercase">Verified Player Clip</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = '';
+
+            const filtered = activeChatFilter === 'All' 
+                ? chatMessages 
+                : chatMessages.filter(m => m.category === activeChatFilter);
+
+            document.getElementById('msgCount').innerText = `Showing ${filtered.length} Messages`;
+
+            filtered.forEach(msg => {
+                const isCoach = msg.pos === 'Coach';
+                container.innerHTML += `
+                    <div class="p-4 rounded-xl ${isCoach ? 'bg-gold/10 border border-gold/30' : 'bg-dark-card border border-dark-border'} transition">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <div class="flex items-center gap-2">
+                                <span class="font-display font-bold text-sm ${isCoach ? 'text-gold' : 'text-white'}">${msg.author}</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase ${isCoach ? 'bg-gold text-black' : 'bg-dark-base text-gray-400 border border-dark-border'}">${msg.pos}</span>
+                            </div>
+                            <span class="text-[10px] text-gray-500">${msg.time}</span>
+                        </div>
+                        <p class="text-xs text-gray-200 leading-relaxed">${msg.text}</p>
+                        ${msg.media ? `
+                            <div class="mt-3 p-2 bg-dark-base rounded-lg border border-dark-border flex items-center justify-between text-xs text-gold">
+                                <span><i class="fa-solid fa-video mr-1"></i> Attached Drill Video</span>
+                                <a href="${msg.media}" target="_blank" class="text-[11px] underline">Watch Video</a>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function renderQueue() {
+            const container = document.getElementById('queueList');
+            const badge = document.getElementById('queueBadge');
+            badge.innerText = coachQueue.length;
+            container.innerHTML = '';
+
+            if (coachQueue.length === 0) {
+                container.innerHTML = `<p class="text-center text-gray-500 py-8 text-xs">No pending clips in the queue!</p>`;
+                return;
+            }
+
+            coachQueue.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="p-4 bg-dark-base border border-dark-border rounded-xl flex flex-col gap-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h5 class="font-bold text-sm text-white">${item.name} (${item.pos})</h5>
+                                <span class="text-xs text-gray-400">${item.school}</span>
+                            </div>
+                            <span class="text-[10px] bg-gold/20 text-gold font-bold px-2 py-0.5 rounded">Pending Approval</span>
+                        </div>
+                        <p class="text-xs text-gray-300 italic font-normal">"${item.desc}"</p>
+                        <div class="flex items-center justify-end gap-2 pt-2 border-t border-dark-border">
+                            <button onclick="rejectQueue(${index})" class="px-3 py-1.5 bg-red-900/40 hover:bg-red-900/60 text-red-300 text-xs font-bold rounded-lg transition">Reject</button>
+                            <button onclick="approveQueue(${index})" class="px-4 py-1.5 bg-gold hover:brightness-110 text-black text-xs font-bold rounded-lg transition">Approve & Publish</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Actions
+        function filterPosition(pos) {
+            document.querySelectorAll('.pos-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-gold', 'text-black');
+                btn.classList.add('bg-dark-card', 'text-gray-300');
+            });
+            event.target.classList.remove('bg-dark-card', 'text-gray-300');
+            event.target.classList.add('bg-gold', 'text-black');
+            renderDrills(pos);
+        }
+
+        function filterChat(cat) {
+            activeChatFilter = cat;
+            document.querySelectorAll('.chat-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-gold', 'text-black');
+                btn.classList.add('bg-dark-card', 'text-gray-300');
+            });
+            event.target.classList.remove('bg-dark-card', 'text-gray-300');
+            event.target.classList.add('bg-gold', 'text-black');
+            renderChatMessages();
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const author = document.getElementById('chatAuthor').value;
+            const pos = document.getElementById('chatPosition').value;
+            const category = document.getElementById('chatCategory').value;
+            const text = document.getElementById('chatText').value;
+            const media = document.getElementById('chatMedia').value;
+
+            const newMsg = {
+                id: Date.now(),
+                author: author,
+                pos: pos,
+                category: category,
+                text: text,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                media: media || null
+            };
+
+            chatMessages.push(newMsg);
+            renderChatMessages();
+
+            document.getElementById('chatText').value = '';
+            document.getElementById('chatMedia').value = '';
+        }
+
+        function giveReps(id) {
+            const tape = playerTapes.find(t => t.id === id);
+            if (tape) {
+                tape.reps++;
+                renderPlayerTapes();
+            }
+        }
+
+        function handleTapeSubmit(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                name: document.getElementById('tapeName').value,
+                pos: document.getElementById('tapePosition').value,
+                school: document.getElementById('tapeSchool').value,
+                url: document.getElementById('tapeUrl').value,
+                desc: document.getElementById('tapeDesc').value,
+                reps: 1
+            };
+
+            coachQueue.push(newItem);
+            renderQueue();
+            toggleModal('submitModal');
+            alert("Your tape has been submitted to the Coach Moderation Queue!");
+            document.getElementById('submissionForm').reset();
+        }
+
+        function approveQueue(index) {
+            const item = coachQueue.splice(index, 1)[0];
+            playerTapes.unshift(item);
+            renderQueue();
+            renderPlayerTapes();
+        }
+
+        function rejectQueue(index) {
+            coachQueue.splice(index, 1);
+            renderQueue();
+        }
+
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.toggle('hidden');
+        }
+
+        function handleSubscribe(plan) {
+            alert(`Selected ${plan}! Connecting to secure checkout...`);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderDrills();
+            renderPlayerTapes();
+            renderChatMessages();
+            renderQueue();
+        }
+    </script>
+</body>
+</html>
